@@ -1,10 +1,12 @@
 import streamlit as st
 import pandas as pd
 from datetime import datetime
+import qrcode
+from io import BytesIO
 
-st.set_page_config(page_title="Pagamento via Pix", page_icon="💸")
+st.set_page_config(page_title="Pagamento Liga BT Medianeira", page_icon="💸")
 
-st.title("💸 Pagamento via Pix")
+st.title("💸 Pagamento Liga BT Medianeira")
 st.markdown("Preencha seu nome abaixo para ver o QR Code de pagamento.")
 
 # Formulário
@@ -16,7 +18,8 @@ if enviar:
     if not nome:
         st.warning("Por favor, digite seu nome.")
     else:
-        valor_fixo = "R$ 30,00"  # <- Troque aqui se quiser alterar o valor exibido
+        valor_fixo = "R$ 30,00"  # <- valor associado ao QR Code fixo
+        codigo_pix_fixo = "00020126330014br.gov.bcb.pix011102453921142520400005303986540530.005802BR5925LUIS GUSTAVO BARBIERI KEH6010MEDIANEIRA62070503***6304436D"  # <- substitua por seu código real
 
         dados = {
             "nome": nome,
@@ -34,5 +37,10 @@ if enviar:
 
         st.success("Dados salvos com sucesso!")
 
-        # Exibir o QR Code fixo (imagem gerada previamente)
-        st.image("qr_code.png", caption="Escaneie para pagar via Pix", width=300)
+        # Gerar QR Code a partir do código fixo
+        qr_img = qrcode.make(codigo_pix_fixo)
+        buffer = BytesIO()
+        qr_img.save(buffer)
+
+        st.image(buffer.getvalue(), caption="Escaneie para pagar via Pix", width=300)
+        st.code(codigo_pix_fixo, language="text")
