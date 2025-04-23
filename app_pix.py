@@ -16,7 +16,7 @@ codigo_pix_fixo = "00020126330014br.gov.bcb.pix011102453921142520400005303986540
 url_planilha = "https://docs.google.com/spreadsheets/d/10xOBmlcaesiwG4G_SD6BZ_l6D2y1Kj_BbtDpTbRKWkg/edit?usp=sharing"  # <- substitua pelo link real da sua planilha
 
 # CONFIG STREAMLIT
-st.set_page_config(page_title="Liga BT Medianeira", page_icon="💸")
+st.set_page_config(page_title="Liga BT Medianeira", page_icon="💸", layout="centered")
 st.title("💸 Liga BT Medianeira")
 st.markdown("Preencha seu nome abaixo e gere o QR Code de pagamento.")
 
