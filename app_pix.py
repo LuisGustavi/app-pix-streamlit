@@ -16,17 +16,30 @@ with st.form("formulario"):
     enviar = st.form_submit_button("Avançar")
 
 if enviar:
-    if not nome:
-        st.warning("Por favor, digite seu nome.")
-    else:
-      # Salva os dados em CSV com valor fixo
-valor_fixo = "R$ 30,00"  # <- troque aqui pelo valor real do seu QR Code
+if not nome:
+    st.warning("Por favor, digite seu nome.")
+else:
+    valor_fixo = "R$ 30,00"  # <- troque aqui pelo valor real do seu QR Code
 
-dados = {
-    "nome": nome,
-    "data": datetime.now().strftime("%d/%m/%Y %H:%M:%S"),
-    "valor": valor_fixo
-}
+    dados = {
+        "nome": nome,
+        "data": datetime.now().strftime("%d/%m/%Y %H:%M:%S"),
+        "valor": valor_fixo
+    }
+
+    try:
+        df = pd.read_csv("dados_pagamentos.csv")
+        df = pd.concat([df, pd.DataFrame([dados])], ignore_index=True)
+    except FileNotFoundError:
+        df = pd.DataFrame([dados])
+
+    df.to_csv("dados_pagamentos.csv", index=False)
+
+    st.success("Dados salvos com sucesso!")
+
+    # Exibir o QR Code (que você já tem salvo como imagem)
+    st.image("qr_code.png", caption="Escaneie para pagar via Pix", width=300)
+
 
 
         try:
