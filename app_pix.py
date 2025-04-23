@@ -28,11 +28,14 @@ with st.form("formulario"):
 if enviar:
     if not nome:
         st.warning("Por favor, digite seu nome.")
-    else:
+        else:
+        # Ajustar a data para o formato correto (caso precise de UTC ou fuso horário específico)
+        data_atual = datetime.now().strftime("%d/%m/%Y %H:%M:%S")  # Formato dia/mês/ano hora:minuto:segundo
+    
         # Dados a registrar
         dados = {
             "nome": nome,
-            "data": datetime.now().strftime("%d/%m/%Y %H:%M:%S"),
+            "data": data_atual().strftime("%d/%m/%Y %H:%M:%S"),
             "valor": valor_fixo
         }
 
