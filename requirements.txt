@@ -1,7 +1,6 @@
-streamlit==1.33.0
-pandas==2.2.1
-qrcode==7.4.2
-pillow==10.2.0
+streamlit
+pandas
+qrcode
 gspread
 gspread-dataframe
 oauth2client
