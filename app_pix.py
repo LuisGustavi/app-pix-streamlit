@@ -42,9 +42,8 @@ if enviar:
         # Salvar no Google Sheets
         try:
             # Carregar credenciais do Streamlit Secrets
-            creds_dict = st.secrets["CREDENTIALS_JSON"]  # Obtém os dados do segredo como AttrDict
-            creds_json = json.dumps(creds_dict)  # Converte o AttrDict para JSON string
-            creds_dict = json.loads(creds_json)  # Converte a string JSON de volta para um dicionário
+            creds_dict = st.secrets["CREDENTIALS_JSON"].to_dict()
+
 
             # Definir escopo de acesso
             scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
