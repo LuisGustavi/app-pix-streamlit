@@ -1,3 +1,4 @@
+import json
 import streamlit as st
 import pandas as pd
 from datetime import datetime
@@ -8,7 +9,6 @@ from io import BytesIO
 import gspread
 from gspread_dataframe import set_with_dataframe
 from oauth2client.service_account import ServiceAccountCredentials
-import json
 
 # CONFIGURAÇÕES
 valor_fixo = "R$ 30,00"
@@ -16,8 +16,8 @@ codigo_pix_fixo = "00020126330014br.gov.bcb.pix011102453921142520400005303986540
 url_planilha = "https://docs.google.com/spreadsheets/d/10xOBmlcaesiwG4G_SD6BZ_l6D2y1Kj_BbtDpTbRKWkg/edit?usp=sharing"  # <- substitua pelo link real da sua planilha
 
 # CONFIG STREAMLIT
-st.set_page_config(page_title="Pagamento Liga BT", page_icon="💸")
-st.title("💸 Pagamento Liga BT")
+st.set_page_config(page_title="Pagamento via Pix", page_icon="💸")
+st.title("💸 Pagamento via Pix")
 st.markdown("Preencha seu nome abaixo para ver o QR Code de pagamento.")
 
 # FORMULÁRIO
@@ -42,7 +42,11 @@ if enviar:
         # Salvar no Google Sheets
         try:
             # Carregar credenciais do Streamlit Secrets
-            creds_dict = json.loads(st.secrets["CREDENTIALS_JSON"])
+            creds_dict = st.secrets["CREDENTIALS_JSON"]  # Obtém os dados do segredo como AttrDict
+            creds_json = json.dumps(creds_dict)  # Converte o AttrDict para JSON string
+            creds_dict = json.loads(creds_json)  # Converte a string JSON de volta para um dicionário
+
+            # Definir escopo de acesso
             scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
             creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_dict, scope)
             client = gspread.authorize(creds)
