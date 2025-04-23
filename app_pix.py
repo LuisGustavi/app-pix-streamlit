@@ -8,6 +8,7 @@ from io import BytesIO
 import gspread
 from gspread_dataframe import set_with_dataframe
 from oauth2client.service_account import ServiceAccountCredentials
+import json
 
 # CONFIGURAÇÕES
 valor_fixo = "R$ 30,00"
@@ -17,7 +18,7 @@ url_planilha = "https://docs.google.com/spreadsheets/d/10xOBmlcaesiwG4G_SD6BZ_l6
 # CONFIG STREAMLIT
 st.set_page_config(page_title="Pagamento Liga BT", page_icon="💸")
 st.title("💸 Pagamento Liga BT")
-st.markdown("Preencha seu nome abaixo e gere o QR Code de pagamento.")
+st.markdown("Preencha seu nome abaixo para ver o QR Code de pagamento.")
 
 # FORMULÁRIO
 with st.form("formulario"):
@@ -40,8 +41,10 @@ if enviar:
 
         # Salvar no Google Sheets
         try:
+            # Carregar credenciais do Streamlit Secrets
+            creds_dict = json.loads(st.secrets["CREDENTIALS_JSON"])
             scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-            creds = ServiceAccountCredentials.from_json_keyfile_name("credentials.json", scope)
+            creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_dict, scope)
             client = gspread.authorize(creds)
 
             planilha = client.open_by_url(url_planilha)
