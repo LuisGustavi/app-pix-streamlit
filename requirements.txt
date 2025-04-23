@@ -4,3 +4,4 @@ qrcode
 gspread
 gspread-dataframe
 oauth2client
+pytz
