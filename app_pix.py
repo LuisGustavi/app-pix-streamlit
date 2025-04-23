@@ -61,7 +61,7 @@ if enviar:
             aba.clear()
             set_with_dataframe(aba, df_completo)
 
-            st.success("Dados enviados com sucesso para o Google Sheets! ✅")
+            st.success("Após realizar o pagamento seus dados serão computados! ✅")
 
         except Exception as e:
             st.error(f"Erro ao salvar no Google Sheets: {e}")
